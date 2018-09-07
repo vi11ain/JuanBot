@@ -1,0 +1,1537 @@
+//Frame 1
+//  Action tag #0
+
+if (_framesloaded < 15) 
+{
+    gotoAndPlay(1);
+}
+
+//Frame 4
+//  Action tag #0
+
+
+//Frame 101
+//  Action tag #0
+
+if (_framesloaded < _totalframes) 
+{
+    gotoAndPlay(99);
+}
+
+//Frame 277
+//  Action tag #0
+
+rules.play();
+
+//Frame 315
+//  Action tag #0
+
+if (2 < rules._currentframe) 
+{
+    gotoAndPlay(_currentframe - 2);
+}
+
+//Frame 347
+//  Action tag #0
+
+function order(a, b)
+{
+    name1 = Number(a);
+    name2 = Number(b);
+    if (name1 < name2) 
+    {
+        return -1;
+    }
+    if (name2 < name1) 
+    {
+        return 1;
+    }
+    return 0;
+}
+function newgame()
+{
+    vGameCount = vGameCount + 1;
+    if (28 < vLevel) 
+    {
+        vSetup = 28;
+    }
+    else 
+    {
+        vSetup = vLevel;
+    }
+    rowcount = levelArray[vSetup][0];
+    rowDiff = levelArray[vSetup][1];
+    rowAdder = levelArray[vSetup][2];
+    rowBase = 2;
+    hints = "OK, Lets go. If you want me to make the first move click play.";
+    if (vReset == 1) 
+    {
+        pearlarray = [];
+        originalarray = [];
+        vRandBase = 0;
+        vLastRand = 0;
+        i = 0;
+        while (i < rowcount) 
+        {
+            vRandBase = vRandBase + rowDiff - vLastRand;
+            vLastRand = 1 + random(vRandBase);
+            rowBase = rowBase + vLastRand + rowAdder;
+            if (29 < rowBase) 
+            {
+                rowBase = 29;
+            }
+            pearlarray[i] = rowBase;
+            originalarray[i] = pearlarray[i];
+            ++i;
+        }
+    }
+    else 
+    {
+        i = 0;
+        while (i < rowcount) 
+        {
+            pearlarray[i] = originalarray[i];
+            ++i;
+        }
+    }
+    a = pearlarray[0];
+    b = pearlarray[1];
+    c = pearlarray[2];
+    d = pearlarray[3];
+    e = pearlarray[4];
+    f = pearlarray[5];
+    g = pearlarray[6];
+    pos = 1;
+    i = 0;
+    for (;;) 
+    {
+        if (i >= rowcount) 
+        {
+            return;
+        }
+        thecount = pearlarray[i];
+        j = 0;
+        while (j < thecount) 
+        {
+            pearlname = "p_" + i + "_" + j;
+            table.attachMovie("p", pearlname, pos);
+            pearlname = "table." + pearlname;
+            pos = pos + 1;
+            eval(pearlname)._xscale = 100 + i * 2;
+            eval(pearlname)._yscale = 100 + i * 2;
+            tempwidth = eval(pearlname)._width;
+            eval(pearlname)._y = 20 + i * tempwidth * 0.6;
+            eval(pearlname)._x = 130 + j * tempwidth * 0.8 - tempwidth * i * 0.6;
+            tellTarget(pearlname)
+            {
+                myRow = _root.i;
+                myPos = _root.j;
+            }
+            ++j;
+        }
+        ++i;
+    }
+}
+selectRow = 10;
+vLevel = 1;
+levelnum.gotoandstop(vLevel + 1);
+levelnum0.gotoandstop(12);
+vWins = 0;
+vLosses = 0;
+vFlash = 0;
+vReset = 1;
+vScore = 0;
+vRanking = 0;
+vName = "";
+vPossy = 0;
+godone = 0;
+firstreaction = 2;
+firstrun = 1;
+pscore100.gotoandstop(12);
+pscore10.gotoandstop(12);
+yscore10.gotoandstop(12);
+jscore10.gotoandstop(12);
+levelArray = [[], [2, 4, 0], [3, 2, 0], [3, 3, 0], [3, 4, 0], [3, 5, 0], [3, 5, 1], [3, 4, 3], [4, 1, 0], [4, 2, 0], [4, 3, 0], [4, 4, 0], [4, 4, 1], [4, 5, 1], [5, 1, 0], [5, 2, 0], [5, 3, 0], [5, 3, 0], [5, 4, 1], [6, 1, 1], [6, 2, 1], [6, 3, 1], [6, 4, 1], [7, 1, 0], [7, 2, 0], [7, 3, 0], [7, 2, 1], [7, 3, 1], [7, 2, 2]];
+vLevel = 1;
+vGameCount = 0;
+gotoAndPlay("throwPearls");
+
+//Frame 348
+//  Action tag #0
+
+vTakeRow0 = _root.pearlarray[0] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+vTakeRow1 = _root.pearlarray[1] - (_root.pearlarray[0] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+vTakeRow2 = _root.pearlarray[2] - (_root.pearlarray[1] ^ _root.pearlarray[0] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+vTakeRow3 = _root.pearlarray[3] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[0] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+vTakeRow4 = _root.pearlarray[4] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[0] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+vTakeRow5 = _root.pearlarray[5] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[0] ^ _root.pearlarray[6]);
+vTakeRow6 = _root.pearlarray[6] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[0]);
+vNoMoves = _root.pearlarray[0] ^ _root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6];
+
+//  Action tag #1
+
+stop();
+
+//Frame 349
+//  Action tag #0
+
+if (selectRow == 11) 
+{
+    firstreaction = 3 - firstreaction;
+    if (typeof (__reg0 = firstreaction) == typeof (__reg2 = 0) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("sure");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 1) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("firstMistake");
+    }
+}
+else 
+{
+    reaction = random(10);
+    var __reg2;
+    if (typeof (__reg0 = reaction) == typeof (__reg2 = 0) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("pahh");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 1) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("lms");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 2) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("blink");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 3) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("click");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 4) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("scratch");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 5) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("odear");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 6) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("rasp");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 7) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("hmmm");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 8) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("giggle");
+    }
+    else if (typeof __reg0 == typeof (__reg2 = 9) ? __reg0 == __reg2 : false) 
+    {
+        gotoAndPlay("tricky");
+    }
+}
+
+//Frame 350
+//  Action tag #0
+
+theNum = originalarray[whichrow] - j - 1;
+takename = "table.p_" + whichrow + "_" + (originalarray[whichrow] - j - 1);
+while (eval(takename)._currentframe != 1) 
+{
+    ++j;
+    theNum = originalarray[whichrow] - j - 1;
+    takename = "table.p_" + whichrow + "_" + (originalarray[whichrow] - j - 1);
+    if (theNum < 0) 
+    {
+        godone = 0;
+        selectRow = 11;
+        bail.gotoandstop(1);
+        juanTime = juanTime + getTimer() - juanTimestart;
+        gotoAndStop("wait");
+        break;
+    }
+}
+
+//Frame 351
+//  Action tag #0
+
+
+//Frame 353
+//  Action tag #0
+
+hand._x = eval(takename)._x + table._x;
+hand._y = eval(takename)._y + table._y;
+arm._x = hand._x;
+arm._y = hand._y;
+tellTarget(takename)
+{
+    gotoAndPlay("shrink");
+    _root.took = _root.took + 1;
+}
+
+//Frame 355
+//  Action tag #0
+
+if (took == howmany) 
+{
+    pearlarray[whichrow] = pearlarray[whichrow] - howmany;
+    a = pearlarray[0];
+    b = pearlarray[1];
+    c = pearlarray[2];
+    d = pearlarray[3];
+    e = pearlarray[4];
+    f = pearlarray[5];
+    g = pearlarray[6];
+    selectRow = 10;
+    total = a + b + c + d + e + f + g;
+    if (total == 1) 
+    {
+        if (firstrun == 1) 
+        {
+            gotoAndPlay("wintryagain");
+            firstrun = 0;
+        }
+        else 
+        {
+            hints = "I win. You lose!!!";
+            reaction = random(5);
+            var __reg2;
+            if (typeof (__reg0 = reaction) == typeof (__reg2 = 0) ? __reg0 == __reg2 : false) 
+            {
+                gotoAndPlay("winning laugh");
+            }
+            else if (typeof __reg0 == typeof (__reg2 = 1) ? __reg0 == __reg2 : false) 
+            {
+                gotoAndPlay("wintryagain");
+            }
+            else if (typeof __reg0 == typeof (__reg2 = 2) ? __reg0 == __reg2 : false) 
+            {
+                gotoAndPlay("MyDog");
+            }
+            else if (typeof __reg0 == typeof (__reg2 = 3) ? __reg0 == __reg2 : false) 
+            {
+                gotoAndPlay("laugh2");
+            }
+            else if (typeof __reg0 == typeof (__reg2 = 4) ? __reg0 == __reg2 : false) 
+            {
+                gotoAndPlay("tryAgain");
+            }
+        }
+        vLosses = vLosses + 1;
+        jscore1.nextFrame();
+        vReset = 0;
+        vFlash = 1;
+        vScore = int(100 * vWins / vGameCount);
+        vScore100 = int(vWins / vGameCount);
+        vScore10 = int(10 * vWins / vGameCount) - vScore100 * 10;
+        vScore1 = int(100 * vWins / vGameCount) - vScore100 * 100 - vScore10 * 10;
+        pscore1.gotoAndStop(vScore1 + 1);
+        if (vscore100 == 0) 
+        {
+            pscore100.gotoAndStop(12);
+            if (vscore10 == 0) 
+            {
+                pscore10.gotoAndStop(12);
+            }
+            else 
+            {
+                pscore10.gotoAndStop(vScore10 + 1);
+            }
+        }
+        else 
+        {
+            pscore100.gotoAndStop(2);
+            pscore10.gotoAndStop(1);
+            pscore1.gotoAndStop(1);
+        }
+    }
+    else 
+    {
+        godone = 0;
+        bail.gotoandstop(1);
+        juanTime = juanTime + getTimer() - juanTimestart;
+        gotoAndStop("wait");
+    }
+}
+
+//Frame 356
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 361
+//  Action tag #0
+
+i = 0;
+while (i < originalarray.length) 
+{
+    thecount = originalarray[i];
+    j = 0;
+    while (j < thecount) 
+    {
+        deletername = "table.p_" + i + "_" + j;
+        removeMovieClip(deletername);
+        ++j;
+    }
+    ++i;
+}
+
+//Frame 371
+//  Action tag #0
+
+newgame();
+
+//Frame 373
+//  Action tag #0
+
+if (vLevel == 1) 
+{
+    gotoAndPlay("me2start");
+}
+else 
+{
+    selectRow = 11;
+    turn.gotoandstop(1);
+    godone = 0;
+    vStarttime = getTimer();
+    juanTime = 0;
+    gotoAndStop("wait");
+}
+
+//Frame 416
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 469
+//  Action tag #0
+
+turn.gotoandstop(1);
+
+//Frame 506
+//  Action tag #0
+
+selectRow = 11;
+godone = 0;
+vStarttime = getTimer();
+juanTime = 0;
+gotoAndStop("wait");
+
+//Frame 522
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 580
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 583
+//  Action tag #0
+
+tellTarget("/eyes")
+{
+    gotoAndPlay(3);
+}
+
+//Frame 588
+//  Action tag #0
+
+tellTarget("/eyes")
+{
+    gotoAndPlay(3);
+}
+
+//Frame 592
+//  Action tag #0
+
+tellTarget("/eyes")
+{
+    gotoAndPlay(3);
+}
+
+//Frame 601
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 635
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 673
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 699
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 729
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 754
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 774
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 831
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 879
+//  Action tag #0
+
+gotoAndPlay("poised");
+
+//Frame 956
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1017
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1090
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1168
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1225
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1309
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1482
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1539
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1558
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1660
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1706
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1774
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Frame 1808
+//  Action tag #0
+
+gotoAndPlay("reset");
+
+//Sprite 6
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//  Frame 3
+//    Action tag #0
+
+stop();
+
+//  Frame 8
+//    Action tag #0
+
+stop();
+eval("_level0/pa1")._visible = "0";
+
+//Sprite 9
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Sprite 37
+//  Frame 20
+//    Action tag #0
+
+rand = random(11);
+if (rand < 8) 
+{
+    gotoAndPlay(16);
+}
+
+//  Frame 23
+//    Action tag #0
+
+rand = random(10);
+if (rand < 5) 
+{
+    gotoAndPlay(16);
+}
+
+//Sprite 39
+//  Frame 84
+//    Action tag #0
+
+stop();
+
+//Sprite 68
+//  Frame 0
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 1
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 2
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 3
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 4
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 5
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 6
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 7
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 8
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 9
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 10
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 11
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 12
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 13
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 14
+//    ClipEvent 55:15
+//  Frame 15
+//    ClipEvent 55:15
+//  Frame 16
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 17
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 18
+//    ClipEvent 55:15
+//  Frame 19
+//    ClipEvent 55:15
+//  Frame 20
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 21
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 22
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 23
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 24
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 25
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 26
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 27
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 28
+//    ClipEvent 55:15
+//  Frame 29
+//    ClipEvent 55:15
+//  Frame 30
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 31
+//    ClipEvent 55:15
+//    ClipEvent 59:21
+//      On enterFrame
+onClipEvent(enterFrame)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//      On load
+onClipEvent(load)
+{
+    _width = 200 * _root.getBytesLoaded() / _root.getBytesTotal();
+}
+
+//  Frame 32
+//    ClipEvent 55:15
+//  Frame 33
+//    ClipEvent 55:15
+//Sprite 90
+//  Frame 9
+//    Action tag #0
+
+gotoAndPlay(random(12));
+
+//Sprite 130
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//  Frame 10
+//    Action tag #0
+
+gotoAndStop(1);
+tellTarget("_root." + this._name + "0")
+{
+    nextFrame();
+}
+
+//  Frame 12
+//    Action tag #0
+
+gotoAndStop(2);
+
+//Sprite 136
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Sprite 158
+//  Frame 0
+//    Action tag #0
+
+if (Number(random(30)) == 10) 
+{
+    eyetemp = "2";
+    gotoAndPlay(3);
+}
+
+//  Frame 1
+//    Action tag #0
+
+gotoAndPlay(1);
+
+//  Frame 6
+//    Action tag #0
+
+if (Number(eyetemp - 1) < Number(random(eyetemp))) 
+{
+    eyetemp = Number(eyetemp) + 1;
+    gotoAndPlay(3);
+}
+
+//Sprite 161
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Sprite 180
+//  Frame 5
+//    Action tag #0
+
+gotoAndPlay(1);
+
+//Sprite 236
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Sprite 238
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//  Frame 1
+//    Action tag #0
+
+_root.armL.gotoandstop("hide");
+_root.handL.gotoandstop("hide");
+
+//  Frame 10
+//    Action tag #0
+
+stop();
+
+//  Frame 17
+//    Action tag #0
+
+_root.armL.play();
+_root.handL.play();
+
+//Sprite 286
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Sprite 288
+//  Frame 0
+//    Action tag #0
+
+stop();
+
+//Button 2
+//  On rollOver
+on (rollOver)
+{
+    if (_root.godone == 0) 
+    {
+        if (_root.selectRow < 9) 
+        {
+            if (_root.selectRow == myRow) 
+            {
+                gotoAndStop("roll");
+            }
+        }
+    }
+}
+
+
+//  On rollOut
+on (rollOut)
+{
+    gotoAndStop("plain");
+}
+
+
+//  On release
+on (release)
+{
+    if (_root.godone == 0) 
+    {
+        if (9 < _root.selectRow) 
+        {
+            _root.turn.gotoandstop(1);
+            _root.bail.gotoAndStop(1);
+            _root.selectRow = myRow;
+        }
+        if (_root.selectRow == myRow) 
+        {
+            _root.selectRow = myRow;
+            _root.pearlarray[myRow] = _root.pearlarray[myRow] - 1;
+            gotoAndPlay("shrink");
+            _root.a = _root.pearlarray[0];
+            _root.b = _root.pearlarray[1];
+            _root.c = _root.pearlarray[2];
+            _root.d = _root.pearlarray[3];
+            _root.e = _root.pearlarray[4];
+            _root.f = _root.pearlarray[5];
+            _root.g = _root.pearlarray[6];
+            _root.total = _root.a + _root.b + _root.c + _root.d + _root.e + _root.f + _root.g;
+            if (_root.total == 1) 
+            {
+                _root.godone = 1;
+                _root.turn.gotoandstop(2);
+                _root.bail.gotoandstop(2);
+                _root.hints = "you win! Good one.";
+                _root.gametime = int((getTimer() - _root.vStarttime - _root.juanTime) / 1000);
+                _root.alltime = int((getTimer() - _root.vStarttime) / 1000);
+                _root.allJuantime = int(_root.juanTime / 1000);
+                _root.allYourtime = _root.alltime - _root.allJuantime;
+                _root.vReset = 1;
+                _root.vWins = _root.vWins + 1;
+                _root.yscore1.nextFrame();
+                _root.vScore = int(100 * _root.vWins / _root.vGameCount);
+                _root.vScore100 = int(_root.vWins / _root.vGameCount);
+                _root.vScore10 = int(10 * _root.vWins / _root.vGameCount) - _root.vScore100 * 10;
+                _root.vScore1 = int(100 * _root.vWins / _root.vGameCount) - _root.vScore100 * 100 - _root.vScore10 * 10;
+                _root.pscore1.gotoAndStop(_root.vScore1 + 1);
+                if (_root.vscore100 == 0) 
+                {
+                    _root.pscore100.gotoAndStop(12);
+                    if (_root.vscore10 == 0) 
+                    {
+                        _root.pscore10.gotoAndStop(12);
+                    }
+                    else 
+                    {
+                        _root.pscore10.gotoAndStop(_root.vScore10 + 1);
+                    }
+                }
+                else 
+                {
+                    _root.pscore100.gotoAndStop(2);
+                    _root.pscore10.gotoAndStop(1);
+                    _root.pscore1.gotoAndStop(1);
+                }
+                vRandreact = 5;
+                if (_root.vWins + 2 < _root.vLosses) 
+                {
+                    ++vRandreact;
+                }
+                reaction = random(vRandreact);
+                var __reg2;
+                if (typeof (__reg0 = reaction) == typeof (__reg2 = 0) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("lose");
+                }
+                else if (typeof __reg0 == typeof (__reg2 = 1) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("niceguy");
+                }
+                else if (typeof __reg0 == typeof (__reg2 = 2) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("CarriedAway");
+                }
+                else if (typeof __reg0 == typeof (__reg2 = 3) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("slapFace");
+                }
+                else if (typeof __reg0 == typeof (__reg2 = 4) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("slapFace");
+                }
+                else if (typeof __reg0 == typeof (__reg2 = 5) ? __reg0 == __reg2 : false) 
+                {
+                    _root.gotoAndPlay("LookScores");
+                }
+                _root.vLevel = _root.vLevel + 1;
+                _root.levelnum.nextFrame();
+                _root.vHints = _root.vHints + 1;
+            }
+        }
+    }
+}
+
+
+//Button 8
+//  On release
+on (release)
+{
+    if (9 < _root.selectRow) 
+    {
+        _root.selectRow = myRow;
+    }
+    if (_root.selectRow == myRow) 
+    {
+        _root.selectRow = myRow;
+        _root.pearlarray[myRow] = _root.pearlarray[myRow] - 1;
+        gotoAndStop(2);
+        _root.a = _root.pearlarray[0];
+        _root.b = _root.pearlarray[1];
+        _root.c = _root.pearlarray[2];
+        _root.d = _root.pearlarray[3];
+        _root.e = _root.pearlarray[4];
+        _root.total = _root.a + _root.b + _root.c + _root.d + _root.e;
+        if (_root.total == 0) 
+        {
+            _root.selectRow = 10;
+            _root.hints = "you win! Good one.";
+        }
+    }
+}
+
+
+//Button 117
+//  On release
+on (release)
+{
+    _root.juanTimestart = getTimer();
+    _root.godone = 1;
+    gotoAndStop(2);
+    _root.bail.gotoAndStop(2);
+    _root.hints = "";
+    if (_root.selectRow == 10) 
+    {
+        _root.hints = "its your turn!!";
+    }
+    else 
+    {
+        ones = 0;
+        multiples = 0;
+        i = 0;
+        while (i < _root.pearlarray.length) 
+        {
+            if (_root.pearlarray[i] == 1) 
+            {
+                ones = ones + 1;
+            }
+            if (1 < _root.pearlarray[i]) 
+            {
+                multiples = multiples + 1;
+                _root.whichrow = i;
+            }
+            ++i;
+        }
+        if (multiples == 1) 
+        {
+            ones = ones % 2;
+            _root.howmany = _root.pearlarray[_root.whichrow] - 1 + ones;
+        }
+        else 
+        {
+            xorarray = [];
+            xorarray[0] = _root.pearlarray[0] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+            xorarray[1] = _root.pearlarray[1] - (_root.pearlarray[0] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+            xorarray[2] = _root.pearlarray[2] - (_root.pearlarray[1] ^ _root.pearlarray[0] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+            xorarray[3] = _root.pearlarray[3] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[0] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+            xorarray[4] = _root.pearlarray[4] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[0] ^ _root.pearlarray[5] ^ _root.pearlarray[6]);
+            xorarray[5] = _root.pearlarray[5] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[0] ^ _root.pearlarray[6]);
+            xorarray[6] = _root.pearlarray[6] - (_root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[0]);
+            xorcheck = _root.pearlarray[0] ^ _root.pearlarray[1] ^ _root.pearlarray[2] ^ _root.pearlarray[3] ^ _root.pearlarray[4] ^ _root.pearlarray[5] ^ _root.pearlarray[6];
+            if (xorcheck == 0) 
+            {
+                _root.whichrow = random(_root.rowcount);
+                while (_root.pearlarray[_root.whichrow] < 1) 
+                {
+                    _root.whichrow = random(_root.rowcount);
+                }
+                _root.howmany = random(_root.pearlarray[_root.whichrow] - 1) + 1;
+            }
+            else 
+            {
+                myoptionsrowarray = [];
+                myoptionsnumberarray = [];
+                arraypos = 0;
+                i = 0;
+                while (i < xorarray.length) 
+                {
+                    if (0 < xorarray[i]) 
+                    {
+                        myoptionsrowarray[arraypos] = i;
+                        myoptionsnumberarray[arraypos] = xorarray[i];
+                        arraypos = arraypos + 1;
+                    }
+                    ++i;
+                }
+                i = 0;
+                while (i < myoptionsrowarray.length) 
+                {
+                    ++i;
+                }
+                whichone = random(myoptionsrowarray.length);
+                _root.whichrow = myoptionsrowarray[whichone];
+                _root.howmany = myoptionsnumberarray[whichone];
+            }
+        }
+        _root.took = 0;
+        _root.j = 0;
+        if (_root.selectRow == 11) 
+        {
+            _root.gotoAndPlay("takepearl");
+        }
+        else 
+        {
+            _root.gotoAndPlay("takepearl");
+        }
+    }
+}
+
+
+//  On rollOver
+on (rollOver)
+{
+    _root.hints = "click here when you\'re ready for me to make a move";
+}
+
+
+//  On rollOut
+on (rollOut)
+{
+    _root.hints = "";
+}
+
+
+//Button 182
+//  On release
+on (release)
+{
+    if (_root.godone == 0) 
+    {
+        play();
+    }
+}
+
+
+//Button 183
+//  On release
+on (release)
+{
+    play();
+}
+
+
+//Button 205
+//  On release
+on (release)
+{
+    _parent.play();
+}
+
+
+//Button 210
+//  On release
+on (release)
+{
+    nextFrame();
+}
+
+
+//Button 223
+//  On release
+on (release)
+{
+    prevFrame();
+}
+
+
+//Button 269
+//  On release
+on (release)
+{
+    getURL("http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=398894917&mt=8", "");
+}
+
+
+//Button 275
+//  On release
+on (release)
+{
+    _root.vReset = 0;
+    gotoAndStop(2);
+    _root.turn.gotoAndStop(2);
+    _root.vLosses = _root.vLosses + 1;
+    _root.jscore1.nextFrame();
+    _root.gotoAndPlay("tryAgain");
+}
+
+
+//  On rollOver
+on (rollOver)
+{
+    _root.hints = "click here for a new game";
+}
+
+
+//  On rollOut
+on (rollOut)
+{
+    _root.hints = "";
+}
+
+
+//Button 282
+//  On release
+on (release)
+{
+    gotoAndStop(2);
+    _root.turn.gotoAndStop(2);
+    _root.vLevel = 1;
+    _root.vWins = 0;
+    _root.vLosses = 0;
+    _root.vScore = 0;
+    _root.vReset = 1;
+    _root.vFlash = 0;
+    _root.selectRow = 10;
+    _root.vGameCount = 0;
+    _root.yscore1.gotoAndStop(1);
+    _root.yscore10.gotoAndStop(12);
+    _root.jscore1.gotoAndStop(1);
+    _root.jscore10.gotoAndStop(12);
+    _root.pscore1.gotoAndStop(1);
+    _root.pscore10.gotoAndStop(12);
+    _root.pscore100.gotoAndStop(12);
+    _root.levelnum.gotoAndStop(2);
+    _root.levelnum0.gotoAndStop(12);
+    _root.vName = "";
+    ++_root.vID;
+    _root.gotoAndPlay("newMatch");
+}
+
+
+//  On rollOver
+on (rollOver)
+{
+    _root.hints = "click here for a new game";
+}
+
+
+//  On rollOut
+on (rollOut)
+{
+    _root.hints = "";
+}
+
+
+//Button 283
+//  On release
+on (release)
+{
+    gotoAndStop(2);
+    _root.turn.gotoAndStop(2);
+    _root.vLosses = _root.vLosses + 1;
+    _root.jscore1.nextFrame();
+    _root.vReset = 1;
+    _root.gotoAndPlay("newGame");
+}
+
+
+//  On rollOver
+on (rollOver)
+{
+    _root.hints = "click here for a new game";
+}
+
+
+//  On rollOut
+on (rollOut)
+{
+    _root.hints = "";
+}
