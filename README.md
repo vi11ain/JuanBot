@@ -9,3 +9,10 @@ He adjusts each line so:
 You can use a [XOR Calculator](http://xor.pw/) to win him over!
 ### 2. Develop a bot to beat Juan
 bot is currently able to start the game, identify game borders and number of pearls in each row!
+- [x] Start the game
+- [x] Identify game borders
+- [x] Navigate menu
+- [x] Identify number of pearls in each row
+- [ ] Play the game
+- [ ] Win the game
+- [ ] Run fast and efficiently
