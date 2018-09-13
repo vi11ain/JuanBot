@@ -1,0 +1,83 @@
+00:19:25.019: JuanBot - Yuval Gal - Omer Asher
+00:19:25.020: To interrupt mouse movement, move mouse to upper left corner.
+
+00:19:26.347: Finding game region...
+00:19:26.414: STREAM b'IHDR' 16 13
+00:19:26.414: STREAM b'sRGB' 41 1
+00:19:26.414: STREAM b'gAMA' 54 4
+00:19:26.415: STREAM b'pHYs' 70 9
+00:19:26.416: STREAM b'IDAT' 91 11130
+
+00:19:28.463: Game region found: (73, 110, 1792, 891)
+00:19:28.464: Initialising button coordinates...
+00:19:28.464: Clicked on New Game button.
+00:19:28.500: Starting to play...
+00:19:28.501: Searching for pearls in first row...
+00:19:28.502: STREAM b'IHDR' 16 13
+00:19:28.503: STREAM b'sRGB' 41 1
+00:19:28.503: STREAM b'gAMA' 54 4
+00:19:28.504: STREAM b'pHYs' 70 9
+00:19:28.505: STREAM b'IDAT' 91 725
+(183, 11, 20, 22)
+(219, 11, 20, 22)
+(254, 11, 20, 22)
+(289, 11, 20, 22)
+(324, 11, 20, 22)
+
+00:19:30.714: Searching for pearls in second row...
+00:19:30.715: STREAM b'IHDR' 16 13
+00:19:30.715: STREAM b'sRGB' 41 1
+00:19:30.716: STREAM b'gAMA' 54 4
+00:19:30.717: STREAM b'pHYs' 70 9
+00:19:30.719: STREAM b'IDAT' 91 572
+(158, 39, 20, 20)
+(193, 39, 20, 20)
+(229, 39, 20, 20)
+(265, 39, 20, 20)
+(301, 39, 20, 20)
+(337, 39, 20, 20)
+
+00:19:32.925: Searching for pearls in third row...
+00:19:32.927: STREAM b'IHDR' 16 13
+00:19:32.928: STREAM b'sRGB' 41 1
+00:19:32.928: STREAM b'gAMA' 54 4
+00:19:32.929: STREAM b'pHYs' 70 9
+00:19:32.930: STREAM b'IDAT' 91 764
+(125, 70, 28, 17)
+(161, 70, 28, 17)
+(198, 70, 28, 17)
+(234, 70, 28, 17)
+(271, 70, 28, 17)
+(307, 70, 28, 17)
+(343, 70, 28, 17)
+(380, 70, 28, 17)
+(416, 70, 28, 17)
+(453, 70, 28, 17)
+
+00:19:35.154: Searching for pearls in fourth row...
+00:19:35.156: STREAM b'IHDR' 16 13
+00:19:35.157: STREAM b'sRGB' 41 1
+00:19:35.157: STREAM b'gAMA' 54 4
+00:19:35.158: STREAM b'pHYs' 70 9
+00:19:35.159: STREAM b'IDAT' 91 792
+(102, 94, 18, 34)
+(139, 94, 18, 34)
+(176, 94, 18, 34)
+(213, 94, 18, 34)
+(250, 94, 18, 34)
+(288, 94, 18, 34)
+(325, 94, 18, 34)
+(362, 94, 18, 34)
+(399, 94, 18, 34)
+(436, 94, 18, 34)
+(474, 94, 18, 34)
+(511, 94, 18, 34)
+(548, 94, 18, 34)
+(585, 94, 18, 34)
+Press any key to continue . . .
+
+
+
+
+
+

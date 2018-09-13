@@ -94,4 +94,9 @@ def startPlaying():
     for pos in pyautogui.locateAll(imPath("pearl3.png"),screenshot):
         print(pos)
 
+    print()
+    logging.debug('Searching for pearls in fourth row...')
+    for pos in pyautogui.locateAll(imPath("pearl4.png"),screenshot):
+        print(pos)
+
 main()
