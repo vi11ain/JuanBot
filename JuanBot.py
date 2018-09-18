@@ -11,7 +11,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s.%(msecs)03d: %(mess
 #logging.disable(logging.DEBUG) # uncomment to block debug log messages
 
 # Global variables
-LEVEL = 1 # current level being played
+LEVEL = 2 # Current level being played
+EMPTYLINES = [0,0,0,0,0,0,0,0] # (1,2,3,4,5,6,7,8) what lines are already cleaned and don't need to be checked, 1 = cleaned
 
 # various coordinates of objects in the game
 GAME_REGION = () # (left, top, width, height) values coordinates of the entire game window
@@ -73,6 +74,7 @@ def navigateStartGameMenu():
     logging.debug('Clicked on New Game button.')
 
 def pearlSearch():
+    global EMPTYLINES
     # screenshot variable to hold the image of the table region in the game
     screenshot = pyautogui.screenshot(region=PEARL_REGION)
     # line is holding the coords of each pearl in a line
@@ -83,45 +85,59 @@ def pearlSearch():
     # Searching for each pearl in the table region, adapt the pearl coords to game region and appending it to line list, than appending the line list to listOfLines and reseting line
     # Starting to search for pearls in line 1 and 2
 
-    logging.debug('Searching for pearls in first row...')
-    for pos in pyautogui.locateAll(imPath("pearl.png"),screenshot):
-        print(pos)
-        pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
-        line.append(pos)
-    listOfLines.append(line)
-    line = []
-    print()
-    
-    logging.debug('Searching for pearls in second row...')
-    for pos in pyautogui.locateAll(imPath("pearl2.png"),screenshot):
-        print(pos)
-        pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
-        line.append(pos)
-    listOfLines.append(line)
-    line = []
-    print()
-
-    # If LEVEL is bigger than 1, check for pearls in line 3
-
-    if LEVEL>1:
-        logging.debug('Searching for pearls in third row...')
-        for pos in pyautogui.locateAll(imPath("pearl3.png"),screenshot):
+    if not EMPTYLINES[0]:
+        logging.debug('Searching for pearls in first row...')
+        for pos in pyautogui.locateAll(imPath("pearl.png"),screenshot):
             print(pos)
             pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
             line.append(pos)
-        listOfLines.append(line)
+        if line:
+            listOfLines.append(line)
+        else:
+            EMPTYLINES[0]=1
+        line = []
+        print()
+    
+    if not EMPTYLINES[1]:
+        logging.debug('Searching for pearls in second row...')
+        for pos in pyautogui.locateAll(imPath("pearl2.png"),screenshot):
+            print(pos)
+            pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
+            line.append(pos)
+        if line:
+            listOfLines.append(line)
+        else:
+            EMPTYLINES[1]=1
+        line = []
+        print()
+
+    # If LEVEL is bigger than 1, check for pearls in line 3
+
+    if LEVEL>1 and not EMPTYLINES[2]:
+        logging.debug('Searching for pearls in third row...')
+        for pos in pyautogui.locateAll(imPath("pearl3.png"),screenshot):
+                print(pos)
+                pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
+                line.append(pos)
+        if line:
+            listOfLines.append(line)
+        else:
+            EMPTYLINES[2]=1
         line = []
         print()
     
     # If LEVEL is bigger than 7, check for pearls in line 4
 
-    if LEVEL>7:
+    if LEVEL>7 and not EMPTYLINES[3]:
         logging.debug('Searching for pearls in fourth row...')
         for pos in pyautogui.locateAll(imPath("pearl4.png"),screenshot):
             print(pos)
             pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
             line.append(pos)
-        listOfLines.append(line)
+        if line:
+            listOfLines.append(line)
+        else:
+            EMPTYLINES[3]=1
         line = []
         print()
 
@@ -140,35 +156,67 @@ def pearlSearch():
     return listOfLines
 
 def startTurn(pearls):
+    # Global variable to change LEVEL's value
     global LEVEL
+
+    # Checking if there are two lines of pearls
     if len(pearls)==2:
+        # Checking which line has more pearls in it and applying it to biggerLine while applying the other one to littleLine
         if len(pearls[0])>len(pearls[1]):
             biggerLine = pearls[0]
             littleLine = pearls[1]
         else:
             biggerLine = pearls[1]
             littleLine = pearls[0]
-        if len(littleLine)==1:
-            for i in range(0,len(biggerLine),1):
+        # Assigning line's lenghts to variables so we don't have to check the lenghts again
+        x,y = len(littleLine),len(biggerLine)
+        # If littleLine's lenght is one then click all the pearls in biggerLine and win, else click enough pearls in biggerLine till x = y
+        if x==1:
+            for i in range(0,y,1):
                 pyautogui.click(biggerLine[i][0],biggerLine[i][1],1,1)
             LEVEL+=1
         else:
-            for i in range(0,len(biggerLine)-len(littleLine),1):
+            for i in range(0,y-x,1):
                 pyautogui.click(biggerLine[i][0],biggerLine[i][1],1,1)
             pyautogui.click(GO_COORDS[0],GO_COORDS[1],1,1)
-        time.sleep(3)
+    # Else if number of pearl lines is 3
+    elif len(pearls)==3:
+        x,y,z = len(pearls[0]),len(pearls[1]),len(pearls[2]) # Assigning line's lenghts to variables so we don't have to check the lenghts again
+        xorLine = pearls[2] # Assigning the line we are going to pop pearls from to a variable
+        if not x^y<z:
+            y,z = len(pearls[2]),len(pearls[1])
+            xorLine = pearls[1]
+            if not x^y<z:
+                x,z = len(pearls[1]),len(pearls[0])
+                xorLine = pearls[0]
+        if x^y<z:
+            for i in range(0,z-(x^y),1):
+                pyautogui.click(xorLine[i][0],xorLine[i][1],1,1)
+        pyautogui.click(GO_COORDS[0],GO_COORDS[1],1,1)
+        
 
 def startLevel():
-    global LEVEL
+    global LEVEL, EMPTYLINES
     localLevel = LEVEL
-    while localLevel==LEVEL:
-        startTurn(pearlSearch())
+    continuePlaying = 1
+    #while localLevel==LEVEL:
+    while continuePlaying:
+        if localLevel!=LEVEL:
+            if pyautogui.alert("Passed to level %s, do you wish to continue playing?" %LEVEL,"JuanBot") == "OK":
+                continuePlaying = 1
+                localLevel += 1
+                EMPTYLINES = [0,0,0,0,0,0,0,0] # Reset EMPTYLINES
+            else:
+                continuePlaying = 0
+        else:
+            startTurn(pearlSearch())
+            # Wait for Juan to make his turn
+            time.sleep(5)
 
 def startPlaying():
     # Starting to play the game, popping a messagebox to ask if the bot should start playing
     if pyautogui.alert("Start bot?","JuanBot") == "OK":
         logging.debug('Starting to play...')
         startLevel()
-
 
 main()
