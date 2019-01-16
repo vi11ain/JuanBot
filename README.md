@@ -13,6 +13,6 @@ bot is currently able to start the game, identify game borders and number of pea
 - [x] Identify game borders
 - [x] Navigate menu
 - [x] Identify number of pearls in each row
-- [ ] Play the game
-- [ ] Win the game
+- [x] Play the game
+- [x] Win the game
 - [ ] Run fast and efficiently
