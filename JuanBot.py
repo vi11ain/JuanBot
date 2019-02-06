@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s.%(msecs)03d: %(mess
 #logging.disable(logging.DEBUG) # uncomment to block debug log messages
 
 # Global variables
-LEVEL = 2 # Current level being played
+LEVEL = 1 # Current level being played
 EMPTYLINES = [0,0,0,0,0,0,0,0] # (1,2,3,4,5,6,7,8) what lines are already cleaned and don't need to be checked, 1 = cleaned
 
 # various coordinates of objects in the game
@@ -42,7 +42,7 @@ def getGameRegion():
     logging.debug('Finding game region...')
 
 
-    region = pyautogui.locateOnScreen(imPath('top_right_corner.png'))
+    region = pyautogui.locateOnScreen(imPath('top_right_corner.png'),confidence=0.5)
     print()
     if region is None:
         raise Exception('Could not find game on screen. Is the game visible?')
@@ -88,9 +88,10 @@ def pearlSearch():
     if not EMPTYLINES[0]:
         logging.debug('Searching for pearls in first row...')
         for pos in pyautogui.locateAll(imPath("pearl.png"),screenshot):
-            print(pos)
-            pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
-            line.append(pos)
+            if pos[1]<40:
+                print(pos)
+                pos = (pos[0]+PEARL_REGION[0],pos[1]+PEARL_REGION[1])
+                line.append(pos)
         if line:
             listOfLines.append(line)
         else:
@@ -198,16 +199,16 @@ def startTurn(pearls):
 def startLevel():
     global LEVEL, EMPTYLINES
     localLevel = LEVEL
-    continuePlaying = 1
+    continuePlaying = True
     #while localLevel==LEVEL:
     while continuePlaying:
         if localLevel!=LEVEL:
             if pyautogui.alert("Passed to level %s, do you wish to continue playing?" %LEVEL,"JuanBot") == "OK":
-                continuePlaying = 1
+                continuePlaying = True
                 localLevel += 1
                 EMPTYLINES = [0,0,0,0,0,0,0,0] # Reset EMPTYLINES
             else:
-                continuePlaying = 0
+                continuePlaying = False
         else:
             startTurn(pearlSearch())
             # Wait for Juan to make his turn
